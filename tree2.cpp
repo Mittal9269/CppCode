@@ -42,26 +42,26 @@ Node *Insert_Node(queue<Node *>&q , int value , Node *root){
     return root;
 }
 
-// bool Search(Node *root , int target ,vector<int>&path){
-//     if(root == NULL) return false;
+bool Search(Node *root , int target ,vector<int>&path){
+    if(root == NULL) return false;
 
-//     if(root->data == target){
-//         path.push_back(root->data);
-//         return true;
-//     }
-//     bool fic = Search(root->left , target , path);
-//     if(fic){
-//         path.push_back(root->data);
-//         return true;
-//     }
-//     fic = Search(root->right , target , path);
-//     if(fic){
-//         path.push_back(root->data);
-//         return true;
-//     }
+    if(root->data == target){
+        path.push_back(root->data);
+        return true;
+    }
+    bool fic = Search(root->left , target , path);
+    if(fic){
+        path.push_back(root->data);
+        return true;
+    }
+    fic = Search(root->right , target , path);
+    if(fic){
+        path.push_back(root->data);
+        return true;
+    }
 
-//     return false;
-// }
+    return false;
+}
 
 
 // int depth(Node *root , int dep){
@@ -95,12 +95,18 @@ Node *Insert_Node(queue<Node *>&q , int value , Node *root){
 //     q.push(root);
 //     while(!q.empty()){
 //         int n = q.size();
+//         vector<int>parent , current;
 //         for(int i=1; i<=n; i++){
 //             Node *temp = q.front();
 //             q.pop();
-//             if(i == n) cout<<temp->data<<" ";
-//             if(temp->left != NULL) q.push(temp->left);
-//             if(temp->right != NULL) q.push(temp->right);
+            // if(i == n) cout<<temp->data<<" ";
+//            
+//             if(temp->left != NULL){
+//                 q.push(temp->left);
+//             } 
+//             if(temp->right != NULL){
+//                 q.push(temp->right);
+//             } 
 //         }
 //     }
 
@@ -196,24 +202,63 @@ void PostOrder(Node *root){
 // }
 
 
-Node *CovertFromPreorder(vector<int>preorder){
-    if(preorder.size() == 0)
-        return NULL; 
-    Node *temp = Build_Node(preorder[0]);
-    if(preorder.size() == 1)
-        return temp;
-    vector<int>v1, v2;
-    for(int i=0; i<preorder.size(); i++){
-        if(preorder[i] < temp->data)
-            v1.push_back(preorder[i]);
-        else if(preorder[i] > temp->data)
-            v2.push_back(preorder[i]);
-    }
-    temp->left = CovertFromPreorder(v1);
-    temp->right = CovertFromPreorder(v2);
+// Node *CovertFromPreorder(vector<int>preorder){
+//     if(preorder.size() == 0)
+//         return NULL; 
+//     Node *temp = Build_Node(preorder[0]);
+//     if(preorder.size() == 1)
+//         return temp;
+//     vector<int>v1, v2;
+//     for(int i=0; i<preorder.size(); i++){
+//         if(preorder[i] < temp->data)
+//             v1.push_back(preorder[i]);
+//         else if(preorder[i] > temp->data)
+//             v2.push_back(preorder[i]);
+//     }
+//     temp->left = CovertFromPreorder(v1);
+//     temp->right = CovertFromPreorder(v2);
 
-    return temp;
+//     return temp;
 
+// }
+
+// void FindMode(Node *root , int &max , int &max_fre, int &curr_freq, int &curr_val){
+//     if(root == NULL)
+//         return ;
+//     FindMode(root->left , max , max_fre , curr_freq , curr_val);
+
+//     if(curr_val == root->data)
+//         curr_freq++;
+//     else{
+//         curr_freq = 1;
+//     }
+
+//     if(curr_freq > max_fre){
+//         max_fre = curr_freq;
+//         max = root->data;
+//     }
+//     curr_val = root->data;
+
+//     FindMode(root->right , max, max_fre , curr_freq , curr_val);
+
+//     return ;
+// }
+
+// void FindMode(Node *root){
+//     int max, max_fre = 0, curr_freq = 0;
+//     int curr_val = INT_MIN;
+//     FindMode(root , max , max_fre , curr_freq , curr_val);
+
+//     cout<<max;
+// }
+
+void deleteTree(Node *root){
+    if(root == NULL)
+        return ;
+    deleteTree(root->left);
+    deleteTree(root->right);
+
+    delete root;
 }
 
 void Build_Tree(){
@@ -224,38 +269,45 @@ void Build_Tree(){
     
 
 
-
-    // int n ,m; cin>>n>>m;
+    int t ; cin>>t;
+    while(t--){
+    root = NULL;
+    int n ,m; cin>>n>>m;
     // int temp; cin>>temp;
-    // queue<Node *>q; string temp;
+    queue<Node *>q; string temp;
     // int t; cin>>t;
-    // while(cin>>temp){
-    //     if(temp == "null")
-    //         root = Insert_Node(q , INT_MAX , root);
-    //     else
-    //         root = Insert_Node(q , stoi(temp) , root);
-    // }
-    // root = remove_node(root);
+    while(1){
+        cin>>temp;
+        if(temp == "-1")
+            break;
+        if(temp == "null")
+            root = Insert_Node(q , INT_MAX , root);
+        else
+            root = Insert_Node(q , stoi(temp) , root);
+    }
+    root = remove_node(root);
     // DeleteNode(root , t);
 
 
 
 
-    vector<int>vec; int temp;
-    while(cin>>temp){
-        vec.push_back(temp);
-    }
-    CovertFromPreorder(vec);
+    // vector<int>vec; int temp;
+    // while(cin>>temp){
+    //     vec.push_back(temp);
+    // }
+    // CovertFromPreorder(vec);
+    // FindMode(root);
+    // Findans(root , n , m);
     // int maxi = 0 ,mini = 0;
     // Minimum(root , mini);
     // Maximum(root , maxi);
     // cout<<mini<<" "<<maxi<<"\n";
-    // vector<int>path_m , path_n;
+    vector<int>path_m , path_n;
     // int answer = INT_MIN;
     // SolveAnswer(root ,answer);
     // cout<<answer;
     // Maximum Sum Path in Binary Tree
-    PostOrder(root );
+    // PostOrder(root );
     // int dep = depth(root , 0);
     // int answer = 0;
     // cout<<dep<<"\n";
@@ -266,9 +318,26 @@ void Build_Tree(){
     // for(auto it : path){
     //     cout<<it<<" ";
     // }
-    // Search(root , n , path_n);
+    Search(root , n , path_n);
+    Search(root , m , path_m);
     // reverse(path_m.begin() , path_m.end());
     // reverse(path_n.begin() , path_n.end());
+    if(path_m.size() != path_n.size())
+        cout<<0<<"\n";
+    else
+        (path_n[1] != path_m[1]) ?  cout<<1<<"\n" : cout<<0<<"\n"; 
+
+    // for(int i=0; i<path_m.size(); i++){
+    //     cout<<path_m[i]<<" ";
+    // }
+    // cout<<"\n";
+    // for(int i=0; i<path_n.size(); i++){
+    //     cout<<path_n[i]<<" ";
+    // }
+    // cout<<"\n";    
+
+    // deleteTree(root); 
+    }
     // int answer = -1;
     // for(int i=0; i<path_m.size(); i++){
     //     if(path_n[i] != path_m[i]){
@@ -281,14 +350,7 @@ void Build_Tree(){
     // }else{
     //     cout<<answer;
     // }
-    // for(int i=0; i<path_m.size(); i++){
-    //     cout<<path_m[i]<<" ";
-    // }
-    // cout<<"\n";
-    // for(int i=0; i<path_n.size(); i++){
-    //     cout<<path_n[i]<<" ";
-    // }
-    // cout<<"\n";
+    
     return ;
 }
 
