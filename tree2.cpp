@@ -252,13 +252,25 @@ void PostOrder(Node *root){
 //     cout<<max;
 // }
 
-void deleteTree(Node *root){
-    if(root == NULL)
-        return ;
-    deleteTree(root->left);
-    deleteTree(root->right);
+// void deleteTree(Node *root){
+//     if(root == NULL)
+//         return ;
+//     deleteTree(root->left);
+//     deleteTree(root->right);
 
-    delete root;
+//     delete root;
+// }
+
+bool checkForBST(Node *root , int min , int max){
+    if(root == NULL)
+        return 1;
+    if(root->data != INT_MIN && root->data <= min){
+        return 0;
+    }
+    if(root->data != INT_MAX && root->data >= max)
+        return 0;
+
+    return checkForBST(root->left , min , root->data ) && checkForBST(root->right , root->data  , max);
 }
 
 void Build_Tree(){
@@ -272,7 +284,7 @@ void Build_Tree(){
     int t ; cin>>t;
     while(t--){
     root = NULL;
-    int n ,m; cin>>n>>m;
+    // int n ,m; cin>>n>>m;
     // int temp; cin>>temp;
     queue<Node *>q; string temp;
     // int t; cin>>t;
@@ -287,7 +299,7 @@ void Build_Tree(){
     }
     root = remove_node(root);
     // DeleteNode(root , t);
-
+    cout<<checkForBST(root , INT_MIN , INT_MAX)<<"\n";
 
 
 
@@ -302,7 +314,7 @@ void Build_Tree(){
     // Minimum(root , mini);
     // Maximum(root , maxi);
     // cout<<mini<<" "<<maxi<<"\n";
-    vector<int>path_m , path_n;
+    // vector<int>path_m , path_n;
     // int answer = INT_MIN;
     // SolveAnswer(root ,answer);
     // cout<<answer;
@@ -318,14 +330,14 @@ void Build_Tree(){
     // for(auto it : path){
     //     cout<<it<<" ";
     // }
-    Search(root , n , path_n);
-    Search(root , m , path_m);
+    // Search(root , n , path_n);
+    // Search(root , m , path_m);
     // reverse(path_m.begin() , path_m.end());
     // reverse(path_n.begin() , path_n.end());
-    if(path_m.size() != path_n.size())
-        cout<<0<<"\n";
-    else
-        (path_n[1] != path_m[1]) ?  cout<<1<<"\n" : cout<<0<<"\n"; 
+    // if(path_m.size() != path_n.size())
+        // cout<<0<<"\n";
+    // else
+    //     (path_n[1] != path_m[1]) ?  cout<<1<<"\n" : cout<<0<<"\n"; 
 
     // for(int i=0; i<path_m.size(); i++){
     //     cout<<path_m[i]<<" ";
